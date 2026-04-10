@@ -44,3 +44,9 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+.vscode/
+.cursor/
+.cursorrules
+.cursorignore
+.cursorignore

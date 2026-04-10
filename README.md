@@ -9,7 +9,7 @@ MemoryLink is a runnable comparison lab for six AI memory-system strategies. It 
 
 ## Screenshot
 
-![AI Memory Systems Lab — chat, memory inspection, and benchmark](./assets/imgs/image.png)
+![AI Memory Systems Lab — chat, memory inspection, and benchmark](./assets/imgs/main.png)
 
 ## Systems
 
