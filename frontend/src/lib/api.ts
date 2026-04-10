@@ -8,6 +8,15 @@ export type MemorySystemId =
   | "m5-working"
   | "m6-hierarchical";
 
+export type LLMConfig = {
+  api_key: string;
+  base_url: string;
+  model: string;
+  use_real_llm: boolean;
+  enabled: boolean;
+  last_error: string | null;
+};
+
 export async function sendChat(system: MemorySystemId, sessionId: string, userMessage: string) {
   const response = await fetch(`${API_BASE_URL}/chat`, {
     method: "POST",
@@ -33,6 +42,26 @@ export async function runBenchmark() {
   const response = await fetch(`${API_BASE_URL}/benchmark`, { cache: "no-store" });
   if (!response.ok) {
     throw new Error(`Benchmark request failed: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function getLLMConfig(): Promise<LLMConfig> {
+  const response = await fetch(`${API_BASE_URL}/config/llm`, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`Config request failed: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function updateLLMConfig(payload: Partial<LLMConfig> & { api_key?: string }): Promise<LLMConfig> {
+  const response = await fetch(`${API_BASE_URL}/config/llm`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  if (!response.ok) {
+    throw new Error(`Config update failed: ${response.status}`);
   }
   return response.json();
 }

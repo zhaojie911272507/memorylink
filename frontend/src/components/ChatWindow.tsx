@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+
 type Message = {
   role: "user" | "assistant";
   content: string;
@@ -18,13 +20,21 @@ export function ChatWindow({
   onSubmit: () => void;
   isLoading: boolean;
 }) {
+  const chatLogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (chatLogRef.current) {
+      chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <section className="panel">
       <div className="panel-header">
         <h2>Conversation</h2>
         <p>Send a message and inspect how each memory system reacts.</p>
       </div>
-      <div className="chat-log">
+      <div className="chat-log" ref={chatLogRef}>
         {messages.length === 0 ? <p className="empty">No messages yet.</p> : null}
         {messages.map((message, index) => (
           <article key={`${message.role}-${index}`} className={`bubble ${message.role}`}>

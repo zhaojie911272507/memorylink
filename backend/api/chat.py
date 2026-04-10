@@ -34,3 +34,18 @@ class InspectResponse(BaseModel):
     session_id: str
     state: dict
 
+
+class LLMConfigResponse(BaseModel):
+    api_key: str
+    base_url: str
+    model: str
+    use_real_llm: bool
+    enabled: bool
+    last_error: str | None = None
+
+
+class LLMConfigUpdateRequest(BaseModel):
+    api_key: str | None = None
+    base_url: str | None = None
+    model: str | None = None
+    use_real_llm: bool | None = None

@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from api.chat import ChatRequest, ChatResponse, InspectResponse
+from api.chat import ChatRequest, ChatResponse, InspectResponse, LLMConfigResponse, LLMConfigUpdateRequest
 from api.eval import BenchmarkResponse
 from api.llm import LLMClient
 from eval.benchmark import run_benchmark
@@ -72,6 +72,21 @@ def chat(request: ChatRequest) -> dict:
 @app.get("/memory/inspect", response_model=InspectResponse)
 def inspect(system: str, session_id: str = "default") -> dict:
     return {"system": system, "session_id": session_id, "state": SYSTEMS[system].inspect(session_id)}
+
+
+@app.get("/config/llm", response_model=LLMConfigResponse)
+def get_llm_config() -> dict:
+    return llm_client.snapshot()
+
+
+@app.post("/config/llm", response_model=LLMConfigResponse)
+def update_llm_config(request: LLMConfigUpdateRequest) -> dict:
+    return llm_client.update_config(
+        api_key=request.api_key,
+        base_url=request.base_url,
+        model=request.model,
+        use_real_llm=request.use_real_llm,
+    )
 
 
 @app.post("/memory/clear")

@@ -31,6 +31,7 @@ uvicorn api.main:app --reload
 ```
 
 If `OPENAI_API_KEY` is set, the backend will use `MEMORYLINK_MODEL` for real responses.
+If your provider exposes an OpenAI-compatible API, set `OPENAI_BASE_URL` or `OPENAI_API_BASE`.
 If no key is set, it falls back to a deterministic local reply generator so the lab still runs.
 
 ## Run frontend
